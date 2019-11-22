@@ -1,59 +1,169 @@
 use std::fs::{read_to_string, File};
-use std::io::{prelude::*, BufReader};
+use std::io::{prelude::*, BufReader, stdin};
 use std::collections::HashMap;
 use std::error::Error;
+use std::env;
+use std::path::Path;
 
-// use serde_json::{from_str, to_string};
+use serde_json;
 
 type Dictionary = HashMap<String, Vec<String>>;
 
-fn generate_dict () -> Result<(), Box<dyn Error>> {
+fn sort_letters(word: &str) -> String {
+  let mut chars: Vec<char> = word.chars().collect();
+  chars.sort();
+  let ordered = chars.into_iter().collect::<String>();
+  ordered
+}
+
+fn generate_dict(source: &Path) -> Result<(), Box<dyn Error>> {
   let mut map: Dictionary = HashMap::new();
 
-  let file = File::open("dictionary.txt")?;
+  let file = File::open(source)?;
   let reader = BufReader::new(file);
 
   for line in reader.lines() {
     let line = line?;
-    let mut chars: Vec<char> = line.as_str().chars().collect();
-    chars.sort();
-    let ordered = chars.into_iter().collect::<String>();
-    // println!("{:?} {:?}", &line, &ordered);
+    let ordered = sort_letters(line.as_str());
+
     map.entry(ordered).and_modify(|m| m.push(line.clone())).or_insert(vec![line.clone()]);
   }
 
-  // let json = to_string(&map)?;
-  // println!("{:?}", json);
-
   let output = File::create("dict.cbor")?;
-  // output.write_all(json.as_bytes())?;
   serde_cbor::to_writer(output, &map)?;
+
+  Ok(())
+}
+
+fn generate_json_dict(source: &Path) -> Result<(), Box<dyn Error>> {
+  let mut map: Dictionary = HashMap::new();
+
+  let file = File::open(source)?;
+  let reader = BufReader::new(file);
+
+  for line in reader.lines() {
+    let line = line?;
+    let ordered = sort_letters(line.as_str());
+
+    map.entry(ordered).and_modify(|m| m.push(line.clone())).or_insert(vec![line.clone()]);
+  }
+
+  let json = serde_json::to_string(&map)?;
+
+  let mut output = File::create("dict.json")?;
+  output.write_all(json.as_bytes())?;
 
   Ok(())
 }
 
 fn load_dict() -> Result<Dictionary, Box<dyn Error>> {
   let dict_file = File::open("dict.cbor")?;
-  // let dict_file = read_to_string("dict.cbor")?;
-  // let json: Dictionary = from_str(&dynamic)?;
   let dict = serde_cbor::from_reader(dict_file)?;
   Ok(dict)
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
-  // generate_dict()?;
-  let dict = load_dict()?;
+fn load_json_dict() -> std::io::Result<Dictionary> {
+  let dict_file = File::open("dict.json")?;
+  let dict = serde_json::from_reader(dict_file)?;
+  Ok(dict)
+}
 
-  // read in word to find
-  // to_lowercase
-  // sort letters in word
+fn get_words(dict: &Dictionary, input: &String) -> Vec<String> {
+  let word = sort_letters(input.to_lowercase().as_str());
   // print found
   // handle none
-  let found = dict.get("no");
-  println!("{:?}", found);
+  let combos = combinations(&word.as_str());
+  let mut words = vec![];
 
-  let found = dict.get("aeprst");
-  println!("{:?}", found);
+  for c in combos {
+    if let Some(found) = dict.get(&c) {
+      words.extend(found.clone())
+    }
+  }
+
+  words
+}
+
+// https://www.reddit.com/r/rust/comments/91h6t8/generating_all_possible_case_variations_of_a/
+// TODO fix to ascii?
+fn combinations(word: &str) -> Vec<String> {
+  let len = word.chars().count();
+  let mut cases: Vec<String> = Vec::new();
+
+  for i in 0..u64::pow(2, len as u32) {
+    let mut s = String::with_capacity(len);
+    for (idx, ch) in word.chars().enumerate() {
+      if ((i >> idx) & 1) == 1 {
+        s.push_str(&ch.to_string())
+      }
+    }
+    // println!("{:03b} - {}", i, s);
+    cases.push(s);
+  }
+
+  // cases
+  // remove anything less than 2 chars (min for scrabble)
+  let filtered: Vec<String> = cases.into_iter().filter(|x| x.len() > 1).collect();
+  // println!("{:?}", filtered);
+  filtered
+}
+
+// TODO wildcard
+// TODO switch json/cbor
+// TODO arg to generate
+fn main() -> Result<(), Box<dyn Error>> {
+  // generate_dict()?;
+  // let dict = load_dict()?;
+  // generate_json_dict(&Path::new("sowpods.txt"))?;
+  let dict = load_json_dict()?;
+
+  loop {
+    let mut input_text = String::new();
+    stdin()
+      .read_line(&mut input_text)
+      .expect("Failed to read input");
+
+    if input_text.trim() == "q" {
+      break;
+    }
+    // read in word to find
+    // let args: Vec<String> = env::args().collect();
+    // if args.len() == 1 {
+      // println!("Pass a string to search for");
+      // return Ok(())
+    // }
+
+    let words = get_words(&dict, &input_text.trim().to_owned());
+    println!("{:?}", words);
+  }
 
   Ok(())
+}
+
+
+
+#[cfg(test)]
+mod tests {
+  use crate::{combinations, sort_letters, load_json_dict, get_words};
+
+  #[test]
+  fn test_combinations() {
+    assert_eq!(combinations(&"abc"), vec!["ab", "ac", "bc", "abc"]);
+    assert_eq!(combinations(&sort_letters("hotels")), vec!["eh", "el", "hl", "ehl", "eo", "ho", "eho", "lo", "elo", "hlo", "ehlo", "es", "hs", "ehs", "ls", "els", "hls", "ehls", "os", "eos", "hos", "ehos", "los", "elos", "hlos", "ehlos", "et", "ht", "eht", "lt", "elt", "hlt", "ehlt", "ot", "eot", "hot", "ehot", "lot", "elot", "hlot", "ehlot", "st", "est", "hst", "ehst", "lst", "elst", "hlst", "ehlst", "ost", "eost", "host", "ehost", "lost", "elost", "hlost", "ehlost"]);
+    assert_eq!(combinations(&"hotels"), vec!["ho", "ht", "ot", "hot", "he", "oe", "hoe", "te", "hte", "ote", "hote", "hl", "ol", "hol", "tl", "htl", "otl", "hotl", "el", "hel", "oel", "hoel", "tel", "htel", "otel", "hotel", "hs", "os", "hos", "ts", "hts", "ots", "hots", "es", "hes", "oes", "hoes", "tes", "htes", "otes", "hotes", "ls", "hls", "ols", "hols", "tls", "htls", "otls", "hotls", "els", "hels", "oels", "hoels", "tels", "htels", "otels", "hotels"]);
+  }
+
+  #[test]
+  fn test_sorting() {
+    assert_eq!(sort_letters(&"rats"), "arst");
+    assert_eq!(sort_letters(&"hotels"), "ehlost");
+    assert_eq!(sort_letters(&"qowfnewonorafnnewnfnewonffnewnfew"), "aeeeeeffffffnnnnnnnnnooooqrwwwwww");
+  }
+
+  #[test]
+  fn test_moves() {
+    let dict = load_json_dict().unwrap();
+    let words = get_words(&dict, &"hotels".to_owned());
+    assert_eq!(words, vec!["eh", "he", "el", "oe", "ho", "oh", "hoe", "lo", "ole", "helo", "hole", "es", "sh", "ehs", "hes", "she", "els", "les", "sel", "os", "so", "oes", "ose", "hos", "ohs", "soh", "hoes", "hose", "shoe", "los", "sol", "lose", "oles", "sloe", "sole", "hols", "losh", "helos", "holes", "hosel", "sheol", "et", "te", "eth", "het", "the", "elt", "let", "tel", "to", "toe", "hot", "tho", "hote", "lot", "lote", "tole", "holt", "loth", "helot", "hotel", "thole", "st", "est", "set", "tes", "eths", "hest", "hets", "shet", "elts", "lest", "lets", "tels", "sot", "toes", "tose", "host", "hots", "shot", "soth", "tosh", "ethos", "shote", "those", "lost", "lots", "slot", "lotes", "stole", "telos", "toles", "holts", "sloth", "helots", "hostel", "hotels", "tholes"]);
+  }
 }
