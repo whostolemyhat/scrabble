@@ -6,6 +6,10 @@ use std::env;
 use std::path::Path;
 
 use serde_json;
+use regex::Regex;
+
+#[macro_use]
+extern crate lazy_static;
 
 type Dictionary = HashMap<String, Vec<String>>;
 
@@ -108,14 +112,71 @@ fn combinations(word: &str) -> Vec<String> {
   filtered
 }
 
+fn replace_wildcards(word: String) -> Vec<String> {
+  // lazy static or just have a prebuilt array
+  let alphabet: Vec<String> = (b'a'..=b'z').map(|c| (c as char).to_string()).collect();
+
+  // println!("{:?}", alphabet);
+  // println!("{:?}", word.find("?"));
+
+  lazy_static! {
+    static ref RE: Regex = Regex::new(r"(\?)").unwrap();
+  }
+  // println!("regex, {:?}", RE.is_match(&word));
+  let result = RE.find_iter(&word);
+  // println!("res {:?}", &result.count());
+  let count = result.count();
+  // println!("count {:?}", count);
+
+  let mut replaced = vec![];
+  if count == 0 {
+    replaced.push(word);
+    return replaced;
+  }
+
+  for letter in &alphabet {
+        // replaced.push(word.replace("?", &letter.to_string()));
+    let single_replacement = RE.replace(&word, letter.as_str());
+    // println!("{:?}", single_replacement);
+
+    if count > 1 {
+      for another_letter in &alphabet {
+        let mega_replaced: String = RE.replace(&single_replacement, another_letter.as_str()).into();
+        replaced.push(mega_replaced);
+      }
+    } else {
+      replaced.push(single_replacement.into());
+    }
+  }
+
+  // match word.find("?") {
+  //   Some(_) => {
+  //     for letter in alphabet {
+  //       replaced.push(word.replace("?", &letter.to_string()));
+  //     }
+  //   },
+  //   None => ()
+  // }
+
+  replaced
+}
+
 // TODO wildcard
 // TODO switch json/cbor
 // TODO arg to generate
+// String vs str vs &str
+// TODO est score
+// TODO gen module
+// Todo length > 1
+// TODO length < 10?
+// TODO sort by length
 fn main() -> Result<(), Box<dyn Error>> {
   // generate_dict()?;
   // let dict = load_dict()?;
   // generate_json_dict(&Path::new("sowpods.txt"))?;
   let dict = load_json_dict()?;
+
+  // dbg!(replace_wildcards("hithere".to_owned()));
 
   loop {
     let mut input_text = String::new();
@@ -133,8 +194,20 @@ fn main() -> Result<(), Box<dyn Error>> {
       // return Ok(())
     // }
 
-    let words = get_words(&dict, &input_text.trim().to_owned());
-    println!("{:?}", words);
+    let seed = replace_wildcards(input_text.trim().to_owned());
+    // merge arrays
+    // dedup
+    let mut found: Vec<String> = vec![];
+    for word_input in seed {
+      let mut words = get_words(&dict, &word_input);
+      // println!("{:?}", words);
+      found.append(&mut words);
+    }
+
+    found.sort();
+    found.dedup();
+
+    println!("{:?} {:?}", found, found.len());
   }
 
   Ok(())
