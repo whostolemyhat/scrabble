@@ -7,6 +7,13 @@ pub mod generate;
 
 use generate::{Dictionary, sort_letters};
 
+lazy_static! {
+  // static ref ALPHABET: Vec<String> = (b'a'..=b'z').map(|c| (c as char).to_string()).collect();
+  static ref ALPHABET: [&'static str; 26] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+  static ref RE: Regex = Regex::new(r"(\?)").unwrap();
+}
+
+
 fn get_words(dict: &Dictionary, input: &String) -> Vec<String> {
   let word = sort_letters(input.to_lowercase().as_str());
   let combos = combinations(&word.as_str());
@@ -45,14 +52,6 @@ fn combinations(word: &str) -> Vec<String> {
 }
 
 fn replace_wildcards(word: &str) -> Vec<String> {
-  // lazy static or just have a prebuilt array
-  let alphabet: Vec<String> = (b'a'..=b'z').map(|c| (c as char).to_string()).collect();
-  // let alphabet = vec!["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-
-  lazy_static! {
-    static ref RE: Regex = Regex::new(r"(\?)").unwrap();
-  }
-
   let result = RE.find_iter(&word);
   let count = result.count();
 
@@ -62,12 +61,12 @@ fn replace_wildcards(word: &str) -> Vec<String> {
     return replaced;
   }
 
-  for letter in &alphabet {
-    let single_replacement = RE.replace(&word, letter.as_str());
+  for letter in &*ALPHABET {
+    let single_replacement = RE.replace(&word, *letter);
 
     if count > 1 {
-      for another_letter in &alphabet {
-        let mega_replaced: String = RE.replace(&single_replacement, another_letter.as_str()).into();
+      for another_letter in ALPHABET.iter() {
+        let mega_replaced: String = RE.replace(&single_replacement, *another_letter).into();
         replaced.push(mega_replaced);
       }
     } else {
