@@ -27,6 +27,7 @@ fn main() -> Result<(), Box<dyn Error>> {
   let dict = scrabble::generate::load_dict()?;
 
   println!("loaded");
+  let mut found: Vec<String> = vec![];
 
   loop {
     let mut input_text = String::new();
@@ -38,7 +39,7 @@ fn main() -> Result<(), Box<dyn Error>> {
       break;
     }
 
-    let found = scrabble::find_all(&dict, &input_text.trim());
+    found = scrabble::find_all(&dict, &input_text.trim());
 
     println!("{:?} {:?}", found, found.len());
   }

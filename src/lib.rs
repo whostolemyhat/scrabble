@@ -56,6 +56,13 @@ fn replace_wildcards(word: &str) -> Vec<String> {
   let count = result.count();
 
   let mut replaced = vec![];
+
+  // TODO throw error
+  if count > 2 {
+    println!("Max two wildcards");
+    return replaced;
+  }
+
   if count == 0 {
     replaced.push(word.to_owned());
     return replaced;
