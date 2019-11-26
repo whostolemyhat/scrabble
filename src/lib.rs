@@ -21,7 +21,7 @@ fn get_words(dict: &Dictionary, input: &String) -> Vec<String> {
 
   for c in combos {
     if let Some(found) = dict.get(&c) {
-      words.extend(found.clone())
+      words.extend(found.clone());
     }
   }
 
