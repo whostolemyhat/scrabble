@@ -1,6 +1,6 @@
 [package]
 name = "scrabble"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["James Baum <james@jamesbaum.co.uk>"]
 edition = "2018"
 

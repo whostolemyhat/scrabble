@@ -2,10 +2,11 @@ use std::fs::File;
 use std::io::{prelude::*, BufReader};
 use std::collections::HashMap;
 use std::error::Error;
+use serde::{Serialize, Deserialize};
 
 pub type Dictionary = HashMap<String, Vec<String>>;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum Wordlist {
   Sowpods,
   Twl
