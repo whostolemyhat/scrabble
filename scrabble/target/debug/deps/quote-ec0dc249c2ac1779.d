@@ -1,0 +1,13 @@
+/Users/james/Documents/scrabble/scrabble/target/debug/deps/quote-ec0dc249c2ac1779.rmeta: /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/lib.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/ext.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/format.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/ident_fragment.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/to_tokens.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/runtime.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/spanned.rs
+
+/Users/james/Documents/scrabble/scrabble/target/debug/deps/libquote-ec0dc249c2ac1779.rlib: /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/lib.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/ext.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/format.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/ident_fragment.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/to_tokens.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/runtime.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/spanned.rs
+
+/Users/james/Documents/scrabble/scrabble/target/debug/deps/quote-ec0dc249c2ac1779.d: /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/lib.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/ext.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/format.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/ident_fragment.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/to_tokens.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/runtime.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/spanned.rs
+
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/lib.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/ext.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/format.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/ident_fragment.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/to_tokens.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/runtime.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.2/src/spanned.rs:

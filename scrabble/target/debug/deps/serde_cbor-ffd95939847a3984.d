@@ -1,0 +1,13 @@
+/Users/james/Documents/scrabble/scrabble/target/debug/deps/serde_cbor-ffd95939847a3984.rmeta: /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/lib.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/de.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/error.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/read.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/ser.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/write.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/value/mod.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/value/de.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/value/ser.rs
+
+/Users/james/Documents/scrabble/scrabble/target/debug/deps/serde_cbor-ffd95939847a3984.d: /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/lib.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/de.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/error.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/read.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/ser.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/write.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/value/mod.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/value/de.rs /Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/value/ser.rs
+
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/lib.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/de.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/error.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/read.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/ser.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/write.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/value/mod.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/value/de.rs:
+/Users/james/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_cbor-0.10.2/src/value/ser.rs:
