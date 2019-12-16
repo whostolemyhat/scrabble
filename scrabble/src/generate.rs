@@ -1,4 +1,5 @@
 use std::fs::File;
+use std::path::Path;
 use std::io::{prelude::*, BufReader};
 use std::collections::HashMap;
 use std::error::Error;
@@ -19,7 +20,7 @@ pub fn sort_letters(word: &str) -> String {
   ordered
 }
 
-pub fn generate_dict(list: &Wordlist) -> Result<(), Box<dyn Error>> {
+pub fn generate_dict(list: &Wordlist, path: &str) -> Result<(), Box<dyn Error>> {
   let mut map: Dictionary = HashMap::new();
 
   let source = match list {
@@ -37,7 +38,7 @@ pub fn generate_dict(list: &Wordlist) -> Result<(), Box<dyn Error>> {
     map.entry(ordered).and_modify(|m| m.push(line.clone())).or_insert(vec![line.clone()]);
   }
 
-  let out_path = format!("{:?}-dict.json", list);
+  let out_path = Path::new(path).join(format!("{:?}-dict.json", list));
   let mut output = File::create(out_path)?;
   let json = serde_json::to_string(&map)?;
   output.write_all(json.as_bytes())?;
@@ -45,8 +46,8 @@ pub fn generate_dict(list: &Wordlist) -> Result<(), Box<dyn Error>> {
   Ok(())
 }
 
-pub fn load_dict(list: &Wordlist) -> Result<Dictionary, Box<dyn Error>> {
-  let dict_file = File::open(format!("{:?}-dict.json", list))?;
+pub fn load_dict(list: &Wordlist, path: &str) -> Result<Dictionary, Box<dyn Error>> {
+  let dict_file = File::open(Path::new(path).join(format!("{:?}-dict.json", list)))?;
   let dict = serde_json::from_reader(dict_file)?;
   Ok(dict)
 }

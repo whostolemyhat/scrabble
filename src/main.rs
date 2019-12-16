@@ -1,7 +1,6 @@
 use std::io::{stdin};
 use std::error::Error;
 use clap::{App, Arg};
-// use std::path::Path;
 use log::{info};
 
 use scrabble::{find_all};
@@ -18,6 +17,7 @@ use scrabble::generate::{Wordlist, generate_dict, load_dict};
 // TODO sort by length
 fn main() -> Result<(), Box<dyn Error>> {
   env_logger::init();
+  let dict_path = std::env::var("DICT_PATH").unwrap_or(".".to_string());
 
   let matches = App::new("Scrabble")
     .version("1.0")
@@ -50,7 +50,7 @@ fn main() -> Result<(), Box<dyn Error>> {
       "twl" => Wordlist::Twl,
       _ => unreachable![]
     };
-    generate_dict(&list)?;
+    generate_dict(&list, &dict_path)?;
     return Ok(());
   };
 
@@ -60,7 +60,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     _ => unreachable![]
   };
 
-  let dict = load_dict(&list)?;
+  let dict = load_dict(&list, &dict_path)?;
 
   // replace with info!
   info!("Loaded dict");
